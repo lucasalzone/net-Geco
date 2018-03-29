@@ -23,12 +23,12 @@ namespace Giova{
 		private SqlConnection DataConnection() {
 			SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder();
 			builder.DataSource = @"(localdb)\MSSQLLocalDB";
-			builder.InitialCatalog = "GeCorsi";
+			builder.InitialCatalog = "GeCo";
 			return new SqlConnection(builder.ConnectionString);
 		}
 
 		public void AggiungiCorso(Corso c){
-            //Procedura($"exec AddCorso ");
+            Procedura($"exec AddCorso '{c.Nome}','{c.DataInizio.ToString("yyyy/MM/dd")}','{c.DataFine.ToString("yyyy/MM/dd")}','{c.Descrizione}';");
 		}
 
 		public List<Corso> ListaCorsi(){

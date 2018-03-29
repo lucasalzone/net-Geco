@@ -1,23 +1,24 @@
 create procedure AddCorso
-	@idCorso int,
 	@nome varchar(20),
 	@dataInizio date,
 	@dataFine date,
 	@descrizione nvarchar(200)
 as
 	set IMPLICIT_TRANSACTIONS ON;
-	if @idCorso is null
+	if @nome is null
 		begin
-			print 'prova';
-			throw 56565, 'Codice corso non trovato',3;
+			print 'Errore: non puoi inserire un corso con lo stesso nome';
+			throw 56565, 'Non puoi inserire un corso con lo stesso nome',3;
 			ROLLBACK TRANSACTION;
 		end
 	else
 		begin
-			INSERT INTO funzioniAssociate(codiceRuolo,codiceFunzione) VALUES(@codiceruolo,@codicefunzione);
+			INSERT INTO Corsi(nome,dataInizio,dataFine,descrizione) VALUES(@nome,@dataInizio,@dataFine,@descrizione);
 			COMMIT TRANSACTION;
 		end
 go
+
+drop procedure AddCorso
 
 create procedure Iscrizione
 	@IdCorso int,

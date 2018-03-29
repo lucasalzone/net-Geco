@@ -24,27 +24,29 @@ namespace Giova.IGeCoTest {
 			Assert.IsTrue(trovati_descrizione.Count == 1);
 		}
         [TestMethod]
-        public void AggiungiCorso(Corso c){
-            Assert.IsTrue(false);
+        public void AggiungiCorso(){
+            IGeCo ig = new GeCo();
+            ig.AggiungiCorso(new Corso("Java",new DateTime(2018,02,12),new DateTime(2018,04,12),"Facciamo tanto java"));
+            Assert.IsFalse(ig.ListaCorsi().Count!=0);
         }
         [TestMethod]
-        public void ListaLezioni(Corso c){
+        public void ListaLezioni(){
              Assert.IsTrue(false);
         }
         [TestMethod]
-        public void AggiungiLezione(Corso c){
+        public void AggiungiLezione(){
              Assert.IsTrue(false);
         }
         [TestMethod]
-        public void ModificaLezione(Corso c){
+        public void ModificaLezione(){
              Assert.IsTrue(false);
         }
         [TestMethod]
-        public void Iscrizione(Corso c){
+        public void Iscrizione(){
              Assert.IsTrue(false);
         }
         [TestMethod]
-        public void ModificaCorso(Corso c){
+        public void ModificaCorso(){
              Assert.IsTrue(false);
         }
 	}

@@ -68,7 +68,7 @@ namespace Giova{
 				SqlDataReader reader = cmd.ExecuteReader();
 				trovati = new List<Lezione>();
 				while (reader.Read()) // int id,string nome,string descrizione, int durata
-					trovati.Add(new Lezione(reader.GetInt16(0), reader.GetString(1), reader.GetString(2),reader.GetInt32(3)));
+					trovati.Add(new Lezione(reader.GetString(0), reader.GetString(1), reader.GetInt32(2)));
 				reader.Close();
 				cmd.Dispose();				
 				return trovati;
@@ -147,19 +147,26 @@ namespace Giova{
 		}
 
 		public void AggiungiLezione(Corso c, Lezione l) {
-			SqlConnection connection = DataConnection();
-			try {
-				connection.Open();
-				string sql = $"insert into Lezioni (nome, durata, descrizione) values ('{l.Nome}', {l.Durata}, '{l.Descrizione}');";
-				SqlCommand cmd = new SqlCommand(sql, connection);
-				cmd.ExecuteNonQuery();
-				cmd.Dispose();
-			}catch(Exception e){ 
-				throw e;
-			}finally{
-				connection.Dispose();
-			}
-			c.AddLezione(l);
+			Procedura($"exec AddLezione '{c.Nome}', '{l.Nome}', {l.Durata}, '{l.Descrizione}'");
+			//SqlConnection connection = DataConnection();
+			//try {
+				//connection.Open();
+				//string sqls = $"select top 1 Corsi.idCorso from Corsi where '{c.Nome}' = Corsi.nome";
+				//string sql = $"insert into Lezioni(nome, durata, descrizione) values ('{l.Nome}', {l.Durata}, '{l.Descrizione}') where (select top 1 Corsi.idCorso from Corsi where '{c.Nome}' = Corsi.nome);";
+				//SqlCommand cmd = new SqlCommand("AddLezione", connection);
+				//cmd.CommandType = CommandType.StoredProcedure;
+				//cmd.Parameters.Add("@CorsoNome",SqlDbType.VarChar).Value = c.Nome;
+				//cmd.Parameters.Add("@LezioneNome",SqlDbType.VarChar).Value = l.Nome;
+				//cmd.Parameters.Add("@LezioneDurata",SqlDbType.Int).Value = l.Durata;
+				//cmd.Parameters.Add("@LezioneDescrizione",SqlDbType.NVarChar).Value = l.Descrizione;
+				//cmd.ExecuteNonQuery();
+				//cmd.Dispose();
+			//}catch(Exception e){ 
+				//throw e;
+			//}finally{
+				//connection.Dispose();
+			//}
+			//c.AddLezione(l);
 		}
 
         public void Procedura(string sql){
@@ -213,7 +220,7 @@ namespace Giova{
                 string nome = reader.GetString(1);
                 int durata = reader.GetInt32(2);
                 string descrizione = reader.GetString(3);
-                corsi.Add(new Lezione(nome, durata, descrizione));
+                corsi.Add(new Lezione(nome, descrizione, durata));
             }
             reader.Close();
             return corsi;

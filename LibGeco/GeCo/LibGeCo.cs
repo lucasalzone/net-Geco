@@ -176,7 +176,6 @@ namespace Giova{
 			}
         }
 
-
         public delegate T Delelato<T>(SqlDataReader reader);
         public T Reader<T>(Delelato<T> metodo, string sql){
             SqlConnection con = DataConnection();
@@ -204,6 +203,17 @@ namespace Giova{
                 DateTime datafine = reader.GetDateTime(3);
                 string descrizione = reader.GetString(4);
                 corsi.Add(new Corso(nome, datainizio, datafine, descrizione));
+            }
+            reader.Close();
+            return corsi;
+        }
+        public List<Lezione> TakeLezioni(SqlDataReader reader){
+            List<Lezione> corsi = new List<Lezione>();
+            while (reader.Read()){
+                string nome = reader.GetString(1);
+                int durata = reader.GetInt32(2);
+                string descrizione = reader.GetString(3);
+                corsi.Add(new Lezione(nome, durata, descrizione));
             }
             reader.Close();
             return corsi;

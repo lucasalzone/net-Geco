@@ -26,9 +26,12 @@ as
 go
 
 create procedure ListaLezioni
-	
+	@NomeCorso varchar(20)
 as
-	
+	set IMPLICIT_TRANSACTIONS ON;
+	declare @idCorso int;
+	set @idCorso = (SELECT idCorso FROM Corsi WHERE nome = @NomeCorso);
+	-- Da continuare
 go
 
 create procedure ModCorso

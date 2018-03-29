@@ -43,7 +43,11 @@ namespace Giova.IGeCoTest {
         }
         [TestMethod]
         public void Iscrizione(){
-             Assert.IsTrue(false);
+             GeCo ig = new GeCo();
+             ig.Iscrizione(1,"227993asd");
+            int numero = 0;
+            numero = ig.Conta($"SELECT COUNT(*) FROM Iscrizioni");
+            Assert.IsTrue(numero == 1);
         }
         [TestMethod]
         public void ModificaCorso(){

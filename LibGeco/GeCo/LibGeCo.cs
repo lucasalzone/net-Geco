@@ -160,6 +160,10 @@ namespace Giova{
 			}
         }
 
+        public int Conta(string sql) {
+            return Reader<int>(ContaTutteCose,sql);
+        }
+
         public delegate T Delelato<T>(SqlDataReader reader);
         public T Reader<T>(Delelato<T> metodo, string sql){
             SqlConnection con = DataConnection();
@@ -204,6 +208,15 @@ namespace Giova{
             }
             reader.Close();
             return corsi;
+        }
+        public int ContaTutteCose(SqlDataReader reader) {
+            int numero = 0;
+            while (reader.Read()){
+                numero = reader.GetInt32(0);
+                //corsi.Add(new Lezione(nome, durata, descrizione));
+            }
+            reader.Close();
+            return numero;
         }
     }
 }

@@ -1,11 +1,5 @@
 create database GeCo;
 use GeCo;
-use master;
-drop database GeCo;
-drop table Corsi;
-drop table Studenti;
-drop table Iscrizioni;
-drop table Lezioni;
 create table Corsi(
 	idCorso int identity(1,1) not null primary key,
 	nome varchar(20) not null,
@@ -35,5 +29,6 @@ create table Iscrizioni(
 );
 
 SELECT * FROM Corsi;
-
-drop table Corsi;
+SELECT * FROM Lezioni;
+SELECT * FROM Iscrizioni;
+SELECT * FROM Studenti;

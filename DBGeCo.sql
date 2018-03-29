@@ -1,6 +1,5 @@
 create database GeCo;
 use GeCo;
-
 create table Corsi(
 	idCorso int identity(1,1) not null primary key,
 	nome varchar(20) not null,
@@ -28,3 +27,8 @@ create table Iscrizioni(
 	fkCorso int foreign key references Corsi,
 	fkStudente varchar(20) foreign key references Studenti
 );
+
+SELECT * FROM Corsi;
+SELECT * FROM Lezioni;
+SELECT * FROM Iscrizioni;
+SELECT * FROM Studenti;

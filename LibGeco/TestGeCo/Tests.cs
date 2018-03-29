@@ -26,8 +26,8 @@ namespace Giova.IGeCoTest {
         [TestMethod]
         public void AggiungiCorso(){
             IGeCo ig = new GeCo();
-            ig.AggiungiCorso(new Corso("Java",new DateTime(2018,02,12),new DateTime(2018,04,12),"Facciamo tanto java"));
-            Assert.IsFalse(ig.ListaCorsi().Count!=0);
+            ig.AggiungiCorso(new Corso("Java", new DateTime(2018,02,12),new DateTime(2018,04,12), "Facciamo tanto java"));
+            Assert.IsTrue(ig.ListaCorsi().Count != 0);
         }
         [TestMethod]
         public void ListaLezioni(){
@@ -52,7 +52,11 @@ namespace Giova.IGeCoTest {
         }
         [TestMethod]
         public void Iscrizione(){
-             Assert.IsTrue(false);
+             GeCo ig = new GeCo();
+             ig.Iscrizione(1,"227993asd");
+            int numero = 0;
+            numero = ig.Conta($"SELECT COUNT(*) FROM Iscrizioni");
+            Assert.IsTrue(numero == 1);
         }
         [TestMethod]
         public void ModificaCorso(){

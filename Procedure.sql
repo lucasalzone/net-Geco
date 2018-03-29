@@ -18,19 +18,11 @@ as
 		end
 go
 
-drop procedure AddCorso
-
 create procedure Iscrizione
 	@IdCorso int,
 	@IdMatricola varchar(20)
 as
 	INSERT INTO Iscrizioni(fkCorso, fkstudente) VALUES (@IdCorso,@IdMatricola);
-go
-
-create procedure ListaCorsi
-	
-as
-	SELECT
 go
 
 create procedure ListaLezioni

@@ -32,7 +32,7 @@ namespace Giova{
 		}
 
 		public List<Corso> ListaCorsi(){
-			return _corsi;
+			return Reader<List<Corso>>(TakeCorsi,$"SELECT nome,dataInizio,dataFine,descrizione FROM Corsi;");
 		}
 		public List<Corso> Search(string s, bool scelta, List<Corso> lista) {
 			if(scelta){
@@ -174,6 +174,39 @@ namespace Giova{
 			} finally {
 				connection.Dispose();
 			}
+        }
+
+
+        public delegate T Delelato<T>(SqlDataReader reader);
+        public T Reader<T>(Delelato<T> metodo, string sql){
+            SqlConnection con = DataConnection();
+            try{
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sql, con);
+                SqlDataReader reader = cmd.ExecuteReader();
+                T ris = metodo(reader);
+                reader.Dispose();
+                cmd.Dispose();
+                return ris;
+            }
+            catch(Exception e){
+                throw e;
+            }
+            finally{
+                con.Dispose();
+            }
+        }
+        public List<Corso> TakeCorsi(SqlDataReader reader){
+            List<Corso> corsi = new List<Corso>();
+            while (reader.Read()){
+                string nome = reader.GetString(1);
+                DateTime datainizio = reader.GetDateTime(2);
+                DateTime datafine = reader.GetDateTime(3);
+                string descrizione = reader.GetString(4);
+                corsi.Add(new Corso(nome, datainizio, datafine, descrizione));
+            }
+            reader.Close();
+            return corsi;
         }
     }
 }

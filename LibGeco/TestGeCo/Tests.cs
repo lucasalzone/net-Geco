@@ -26,8 +26,8 @@ namespace Giova.IGeCoTest {
         [TestMethod]
         public void AggiungiCorso(){
             IGeCo ig = new GeCo();
-            ig.AggiungiCorso(new Corso("Java",new DateTime(2018,02,12),new DateTime(2018,04,12),"Facciamo tanto java"));
-            Assert.IsFalse(ig.ListaCorsi().Count!=0);
+            ig.AggiungiCorso(new Corso("Java", new DateTime(2018,02,12),new DateTime(2018,04,12), "Facciamo tanto java"));
+            Assert.IsTrue(ig.ListaCorsi().Count != 0);
         }
         [TestMethod]
         public void ListaLezioni(){

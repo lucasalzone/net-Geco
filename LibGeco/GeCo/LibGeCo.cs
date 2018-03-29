@@ -28,7 +28,7 @@ namespace Giova{
 		}
 
 		public void AggiungiCorso(Corso c){
-            Procedura($"exec AddCorso '{c.Nome}','{c.DataInizio.ToString("yyyy/MM/dd")}','{c.DataFine.ToString("yyyy/MM/dd")}','{c.Descrizione}';");
+            Procedura($"exec AddCorso '{c.Nome}','{c.DataInizio.ToString("dd/MM/yyyy")}','{c.DataFine.ToString("dd/MM/yyyy")}','{c.Descrizione}';");
 		}
 
 		public List<Corso> ListaCorsi(){
@@ -59,24 +59,8 @@ namespace Giova{
 		}
 
 		public List<Lezione> ListaLezioni(Corso c) {
-			List<Lezione> trovati = null;
-			SqlConnection connection = DataConnection();
-			try {
-				connection.Open();
-				string sql = $"select idLezione,nome, durata, descrizione from Lezioni;');";
-				SqlCommand cmd = new SqlCommand(sql, connection);
-				SqlDataReader reader = cmd.ExecuteReader();
-				trovati = new List<Lezione>();
-				while (reader.Read()) // int id,string nome,string descrizione, int durata
-					trovati.Add(new Lezione(reader.GetInt16(0), reader.GetString(1), reader.GetString(2),reader.GetInt32(3)));
-				reader.Close();
-				cmd.Dispose();				
-				return trovati;
-			}catch(Exception e){
-				throw e;
-			}finally{
-				connection.Dispose();
-			}
+            //Ciao
+            return new List<Lezione>();
 		}
 
         public void ModificaCorso(Corso c,bool scelta,string s) {
@@ -198,10 +182,13 @@ namespace Giova{
         public List<Corso> TakeCorsi(SqlDataReader reader){
             List<Corso> corsi = new List<Corso>();
             while (reader.Read()){
-                string nome = reader.GetString(1);
-                DateTime datainizio = reader.GetDateTime(2);
-                DateTime datafine = reader.GetDateTime(3);
-                string descrizione = reader.GetString(4);
+                string nome = reader.GetString(0);
+                string inizio = (string) (reader.GetDateTime(1)).ToString("dd/MM/yyyy");
+                string fine = (string) (reader.GetDateTime(2)).ToString("dd/MM/yyyy");
+                DateTime datainizio = Convert.ToDateTime(inizio);
+                DateTime datafine = Convert.ToDateTime(fine);
+                //datafine = Convert.ToDateTime(datafine).ToString("dd/MM/yyyy");
+                string descrizione = reader.GetString(3);
                 corsi.Add(new Corso(nome, datainizio, datafine, descrizione));
             }
             reader.Close();

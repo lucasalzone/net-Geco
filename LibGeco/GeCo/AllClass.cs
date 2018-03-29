@@ -30,7 +30,7 @@ namespace AllClass {
 			this._nome = nome;
 			this._descrizione = descrizione;
 		}
-		public Lezione(string nome,int durata, string descrizione){
+		public Lezione((string nome, string descrizione, int durata){
 			this._nome = nome;
 			this._descrizione = descrizione;
 			this._durata = durata;
@@ -97,7 +97,7 @@ namespace AllClass {
 		public DateTime DataFine => _DataFine;
 		public List<Studente> Studenti => _studenti;
 		public List<Lezione> Lezioni => _lezioni;
-
+		//usiamo nome come identificatore univoco!
 		public Corso(int id,string nome) {
 			this._idCorso = id;
 			this._nome = nome;

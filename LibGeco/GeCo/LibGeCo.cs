@@ -131,19 +131,8 @@ namespace Giova{
 		}
 
 		public void AggiungiLezione(Corso c, Lezione l) {
-			SqlConnection connection = DataConnection();
-			try {
-				connection.Open();
-				string sql = $"insert into Lezioni (nome, durata, descrizione) values ('{l.Nome}', {l.Durata}, '{l.Descrizione}');";
-				SqlCommand cmd = new SqlCommand(sql, connection);
-				cmd.ExecuteNonQuery();
-				cmd.Dispose();
-			}catch(Exception e){ 
-				throw e;
-			}finally{
-				connection.Dispose();
-			}
-			c.AddLezione(l);
+			Procedura($"exec AddLezione '{c.Nome}', '{l.Nome}', {l.Durata}, '{l.Descrizione}'");
+			
 		}
 
         public void Procedura(string sql){
@@ -204,7 +193,7 @@ namespace Giova{
                 string nome = reader.GetString(1);
                 int durata = reader.GetInt32(2);
                 string descrizione = reader.GetString(3);
-                corsi.Add(new Lezione(nome, durata, descrizione));
+                corsi.Add(new Lezione(nome, descrizione, durata));
             }
             reader.Close();
             return corsi;

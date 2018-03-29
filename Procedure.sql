@@ -70,7 +70,6 @@ as
 	end catch;
 go
 
-
 create procedure SearchGen
 
 as

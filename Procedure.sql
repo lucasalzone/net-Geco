@@ -67,9 +67,6 @@ as
 	end catch;
 go
 
-INSERT into Corsi(nome,dataInizio, dataFine, descrizione) values ('corso1', '01/01/1990', '02/01/1990', 'descrizione1');
-exec AddLezione 'corso1', 'leione1',10,'descrizione1'
-go
 
 create procedure SearchGen
 

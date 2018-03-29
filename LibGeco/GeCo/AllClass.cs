@@ -30,7 +30,7 @@ namespace AllClass {
 			this._nome = nome;
 			this._descrizione = descrizione;
 		}
-		public Lezione((string nome, string descrizione, int durata){
+		public Lezione(string nome, string descrizione, int durata){
 			this._nome = nome;
 			this._descrizione = descrizione;
 			this._durata = durata;

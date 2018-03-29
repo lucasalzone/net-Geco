@@ -148,25 +148,6 @@ namespace Giova{
 
 		public void AggiungiLezione(Corso c, Lezione l) {
 			Procedura($"exec AddLezione '{c.Nome}', '{l.Nome}', {l.Durata}, '{l.Descrizione}'");
-			//SqlConnection connection = DataConnection();
-			//try {
-				//connection.Open();
-				//string sqls = $"select top 1 Corsi.idCorso from Corsi where '{c.Nome}' = Corsi.nome";
-				//string sql = $"insert into Lezioni(nome, durata, descrizione) values ('{l.Nome}', {l.Durata}, '{l.Descrizione}') where (select top 1 Corsi.idCorso from Corsi where '{c.Nome}' = Corsi.nome);";
-				//SqlCommand cmd = new SqlCommand("AddLezione", connection);
-				//cmd.CommandType = CommandType.StoredProcedure;
-				//cmd.Parameters.Add("@CorsoNome",SqlDbType.VarChar).Value = c.Nome;
-				//cmd.Parameters.Add("@LezioneNome",SqlDbType.VarChar).Value = l.Nome;
-				//cmd.Parameters.Add("@LezioneDurata",SqlDbType.Int).Value = l.Durata;
-				//cmd.Parameters.Add("@LezioneDescrizione",SqlDbType.NVarChar).Value = l.Descrizione;
-				//cmd.ExecuteNonQuery();
-				//cmd.Dispose();
-			//}catch(Exception e){ 
-				//throw e;
-			//}finally{
-				//connection.Dispose();
-			//}
-			//c.AddLezione(l);
 		}
 
         public void Procedura(string sql){

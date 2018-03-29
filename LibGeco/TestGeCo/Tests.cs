@@ -35,7 +35,16 @@ namespace Giova.IGeCoTest {
         }
         [TestMethod]
         public void AggiungiLezione(){
-             Assert.IsTrue(false);
+             GeCo ig = new GeCo();
+			 Corso c = new Corso("Java",new DateTime(2018,02,12),new DateTime(2018,04,12),"Facciamo tanto java");
+			 ig.AggiungiCorso(c);
+			 int lunghezza_prima = -2;
+			 lunghezza_prima = ig.Conta($"select count(*) from Lezioni");
+			 Lezione LezioneProva = new Lezione(1,"boh","prova");
+			 int lunghezza_dopo = -2;
+			 ig.AggiungiLezione(c,LezioneProva);
+			 lunghezza_dopo = ig.Conta($"select count(*) from Lezioni");
+			 Assert.IsTrue(lunghezza_prima != lunghezza_dopo);
         }
         [TestMethod]
         public void ModificaLezione(){

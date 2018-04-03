@@ -31,7 +31,17 @@ as
 	set IMPLICIT_TRANSACTIONS ON;
 	declare @idCorso int;
 	set @idCorso = (SELECT idCorso FROM Corsi WHERE nome = @NomeCorso);
-	-- Da continuare
+	if @idCorso is null
+		begin
+			print 'Errore: Non esiste quel Corso';
+			throw 56567, 'Non esiste quel Corso',2;
+			ROLLBACK TRANSACTION;
+		end
+	else
+		begin
+			SELECT Lezioni.nome,Lezioni.durata,Lezioni.durata,Lezioni.descrizione FROM Lezioni WHERE Lezioni.fkCorso = @idCorso;
+			COMMIT TRANSACTION;
+		end
 go
 
 create procedure ModCorso
@@ -47,10 +57,10 @@ as
 go
 
 create procedure AddLezione
-@CorsoNome varchar(20),
-@LezioneNome varchar(20),
-@LezioneDurata int,
-@LezioneDescrizione nvarchar(200)
+	@CorsoNome varchar(20),
+	@LezioneNome varchar(20),
+	@LezioneDurata int,
+	@LezioneDescrizione nvarchar(200)
 as
 	set IMPLICIT_TRANSACTIONS ON;
 	begin try

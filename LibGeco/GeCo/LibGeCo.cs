@@ -6,7 +6,7 @@ using AllClass;
 namespace Giova{
 	public interface IGeCo{
 		List<Corso> ListaCorsi();
-        List<Lezione> ListaLezioni(Corso c);
+        List<Lezione> ListaLezioni(string nomecorso);
 		List<Corso> Search(string s, bool scelta, List<Corso> lista);
 		void AggiungiCorso(Corso c);
 		void ModificaCorso(Corso c,bool scelta,string s);
@@ -58,9 +58,8 @@ namespace Giova{
 			}return trovati;
 		}
 
-		public List<Lezione> ListaLezioni(Corso c) {
-            //Ciao
-            return new List<Lezione>();
+		public List<Lezione> ListaLezioni(string nomecorso) {
+            return Reader<List<Lezione>>(TakeLezioni,$"exec ListaLezioni '{nomecorso}'");
 		}
 
         public void ModificaCorso(Corso c,bool scelta,string s) {

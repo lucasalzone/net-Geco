@@ -13,6 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeCo", "GeCo\GeCo.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGeCo", "TestGeCo\TestGeCo.csproj", "{CD28D9F0-0292-4F14-AE96-194F54756328}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Garbage", "Garbage", "{2CDEC755-5F6D-4FA4-A39B-4A00212231CF}"
+	ProjectSection(SolutionItems) = preProject
+		Garbage.txt = Garbage.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

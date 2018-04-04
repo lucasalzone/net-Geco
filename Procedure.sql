@@ -25,25 +25,6 @@ as
 	INSERT INTO Iscrizioni(fkCorso, fkstudente) VALUES (@IdCorso,@IdMatricola);
 go
 
-/*
-create procedure ListaLezioni
-	@NomeCorso varchar(20)
-as
-	set IMPLICIT_TRANSACTIONS ON;
-	declare @idCorso int;
-	set @idCorso = (SELECT idCorso FROM Corsi WHERE nome = @NomeCorso);
-	if @idCorso is null
-		begin
-			print 'Errore: Non esiste quel Corso';
-			throw 56567, 'Non esiste quel Corso',2;
-			ROLLBACK TRANSACTION;
-		end
-	else
-		begin
-			SELECT Lezioni.nome,Lezioni.durata,Lezioni.durata,Lezioni.descrizione FROM Lezioni WHERE Lezioni.fkCorso = @idCorso;
-			COMMIT TRANSACTION;
-		end
-go*/
 create procedure ListaLezioni
 	@nomeCorso varchar(20)
 as

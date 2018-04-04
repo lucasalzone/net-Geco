@@ -1,0 +1,355 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="GeCoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Corsi">
+          <Key>
+            <PropertyRef Name="idCorso" />
+          </Key>
+          <Property Name="idCorso" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="dataInizio" Type="date" />
+          <Property Name="dataFine" Type="date" />
+          <Property Name="descrizione" Type="nvarchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Iscrizioni">
+          <Key>
+            <PropertyRef Name="idIscrizione" />
+          </Key>
+          <Property Name="idIscrizione" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fkCorso" Type="int" />
+          <Property Name="fkStudente" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Lezioni">
+          <Key>
+            <PropertyRef Name="idLezione" />
+          </Key>
+          <Property Name="idLezione" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="durata" Type="int" />
+          <Property Name="descrizione" Type="nvarchar" MaxLength="200" />
+          <Property Name="fkCorso" Type="int" />
+        </EntityType>
+        <EntityType Name="Studenti">
+          <Key>
+            <PropertyRef Name="matricola" />
+          </Key>
+          <Property Name="matricola" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="nome" Type="varchar" MaxLength="20" />
+          <Property Name="cognome" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <Association Name="FK__Iscrizion__fkCor__3D5E1FD2">
+          <End Role="Corsi" Type="Self.Corsi" Multiplicity="0..1" />
+          <End Role="Iscrizioni" Type="Self.Iscrizioni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Corsi">
+              <PropertyRef Name="idCorso" />
+            </Principal>
+            <Dependent Role="Iscrizioni">
+              <PropertyRef Name="fkCorso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Iscrizion__fkStu__3E52440B">
+          <End Role="Studenti" Type="Self.Studenti" Multiplicity="0..1" />
+          <End Role="Iscrizioni" Type="Self.Iscrizioni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Studenti">
+              <PropertyRef Name="matricola" />
+            </Principal>
+            <Dependent Role="Iscrizioni">
+              <PropertyRef Name="fkStudente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lezioni__fkCorso__3A81B327">
+          <End Role="Corsi" Type="Self.Corsi" Multiplicity="0..1" />
+          <End Role="Lezioni" Type="Self.Lezioni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Corsi">
+              <PropertyRef Name="idCorso" />
+            </Principal>
+            <Dependent Role="Lezioni">
+              <PropertyRef Name="fkCorso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="AddCorso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nome" Type="varchar" Mode="In" />
+          <Parameter Name="dataInizio" Type="date" Mode="In" />
+          <Parameter Name="dataFine" Type="date" Mode="In" />
+          <Parameter Name="descrizione" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="AddLezione" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="CorsoNome" Type="varchar" Mode="In" />
+          <Parameter Name="LezioneNome" Type="varchar" Mode="In" />
+          <Parameter Name="LezioneDurata" Type="int" Mode="In" />
+          <Parameter Name="LezioneDescrizione" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="Iscrizione" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdCorso" Type="int" Mode="In" />
+          <Parameter Name="IdMatricola" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="ListaCorsi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="ListaLezioni" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="nomeCorso" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="GeCoModelStoreContainer">
+          <EntitySet Name="Corsi" EntityType="Self.Corsi" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Iscrizioni" EntityType="Self.Iscrizioni" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Lezioni" EntityType="Self.Lezioni" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Studenti" EntityType="Self.Studenti" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Iscrizion__fkCor__3D5E1FD2" Association="Self.FK__Iscrizion__fkCor__3D5E1FD2">
+            <End Role="Corsi" EntitySet="Corsi" />
+            <End Role="Iscrizioni" EntitySet="Iscrizioni" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Iscrizion__fkStu__3E52440B" Association="Self.FK__Iscrizion__fkStu__3E52440B">
+            <End Role="Studenti" EntitySet="Studenti" />
+            <End Role="Iscrizioni" EntitySet="Iscrizioni" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lezioni__fkCorso__3A81B327" Association="Self.FK__Lezioni__fkCorso__3A81B327">
+            <End Role="Corsi" EntitySet="Corsi" />
+            <End Role="Lezioni" EntitySet="Lezioni" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GeCoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Corsi">
+          <Key>
+            <PropertyRef Name="idCorso" />
+          </Key>
+          <Property Name="idCorso" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="dataInizio" Type="DateTime" Precision="0" />
+          <Property Name="dataFine" Type="DateTime" Precision="0" />
+          <Property Name="descrizione" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Iscrizioni" Relationship="Self.FK__Iscrizion__fkCor__3D5E1FD2" FromRole="Corsi" ToRole="Iscrizioni" />
+          <NavigationProperty Name="Lezioni" Relationship="Self.FK__Lezioni__fkCorso__3A81B327" FromRole="Corsi" ToRole="Lezioni" />
+        </EntityType>
+        <EntityType Name="Iscrizioni">
+          <Key>
+            <PropertyRef Name="idIscrizione" />
+          </Key>
+          <Property Name="idIscrizione" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fkCorso" Type="Int32" />
+          <Property Name="fkStudente" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Corsi" Relationship="Self.FK__Iscrizion__fkCor__3D5E1FD2" FromRole="Iscrizioni" ToRole="Corsi" />
+          <NavigationProperty Name="Studenti" Relationship="Self.FK__Iscrizion__fkStu__3E52440B" FromRole="Iscrizioni" ToRole="Studenti" />
+        </EntityType>
+        <EntityType Name="Lezioni">
+          <Key>
+            <PropertyRef Name="idLezione" />
+          </Key>
+          <Property Name="idLezione" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nome" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="durata" Type="Int32" />
+          <Property Name="descrizione" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="fkCorso" Type="Int32" />
+          <NavigationProperty Name="Corsi" Relationship="Self.FK__Lezioni__fkCorso__3A81B327" FromRole="Lezioni" ToRole="Corsi" />
+        </EntityType>
+        <EntityType Name="Studenti">
+          <Key>
+            <PropertyRef Name="matricola" />
+          </Key>
+          <Property Name="matricola" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nome" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="cognome" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Iscrizioni" Relationship="Self.FK__Iscrizion__fkStu__3E52440B" FromRole="Studenti" ToRole="Iscrizioni" />
+        </EntityType>
+        <Association Name="FK__Iscrizion__fkCor__3D5E1FD2">
+          <End Role="Corsi" Type="Self.Corsi" Multiplicity="0..1" />
+          <End Role="Iscrizioni" Type="Self.Iscrizioni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Corsi">
+              <PropertyRef Name="idCorso" />
+            </Principal>
+            <Dependent Role="Iscrizioni">
+              <PropertyRef Name="fkCorso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Lezioni__fkCorso__3A81B327">
+          <End Role="Corsi" Type="Self.Corsi" Multiplicity="0..1" />
+          <End Role="Lezioni" Type="Self.Lezioni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Corsi">
+              <PropertyRef Name="idCorso" />
+            </Principal>
+            <Dependent Role="Lezioni">
+              <PropertyRef Name="fkCorso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Iscrizion__fkStu__3E52440B">
+          <End Role="Studenti" Type="Self.Studenti" Multiplicity="0..1" />
+          <End Role="Iscrizioni" Type="Self.Iscrizioni" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Studenti">
+              <PropertyRef Name="matricola" />
+            </Principal>
+            <Dependent Role="Iscrizioni">
+              <PropertyRef Name="fkStudente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GeCoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Corsi" EntityType="Self.Corsi" />
+          <EntitySet Name="Iscrizioni" EntityType="Self.Iscrizioni" />
+          <EntitySet Name="Lezioni" EntityType="Self.Lezioni" />
+          <EntitySet Name="Studenti" EntityType="Self.Studenti" />
+          <AssociationSet Name="FK__Iscrizion__fkCor__3D5E1FD2" Association="Self.FK__Iscrizion__fkCor__3D5E1FD2">
+            <End Role="Corsi" EntitySet="Corsi" />
+            <End Role="Iscrizioni" EntitySet="Iscrizioni" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Lezioni__fkCorso__3A81B327" Association="Self.FK__Lezioni__fkCorso__3A81B327">
+            <End Role="Corsi" EntitySet="Corsi" />
+            <End Role="Lezioni" EntitySet="Lezioni" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Iscrizion__fkStu__3E52440B" Association="Self.FK__Iscrizion__fkStu__3E52440B">
+            <End Role="Studenti" EntitySet="Studenti" />
+            <End Role="Iscrizioni" EntitySet="Iscrizioni" />
+          </AssociationSet>
+          <FunctionImport Name="AddCorso">
+            <Parameter Name="nome" Mode="In" Type="String" />
+            <Parameter Name="dataInizio" Mode="In" Type="DateTime" />
+            <Parameter Name="dataFine" Mode="In" Type="DateTime" />
+            <Parameter Name="descrizione" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="AddLezione" ReturnType="Collection(GeCoModel.AddLezione_Result)">
+            <Parameter Name="CorsoNome" Mode="In" Type="String" />
+            <Parameter Name="LezioneNome" Mode="In" Type="String" />
+            <Parameter Name="LezioneDurata" Mode="In" Type="Int32" />
+            <Parameter Name="LezioneDescrizione" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="Iscrizione">
+            <Parameter Name="IdCorso" Mode="In" Type="Int32" />
+            <Parameter Name="IdMatricola" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="ListaCorsi" ReturnType="Collection(GeCoModel.ListaCorsi_Result)" />
+          <FunctionImport Name="ListaLezioni" ReturnType="Collection(GeCoModel.ListaLezioni_Result)">
+            <Parameter Name="nomeCorso" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="AddLezione_Result">
+          <Property Type="Int32" Name="ErrorNumber" Nullable="true" />
+          <Property Type="String" Name="ErrorMessage" Nullable="true" MaxLength="4000" />
+        </ComplexType>
+        <ComplexType Name="ListaCorsi_Result">
+          <Property Type="Int32" Name="idCorso" Nullable="false" />
+          <Property Type="String" Name="nome" Nullable="false" MaxLength="20" />
+          <Property Type="DateTime" Name="dataInizio" Nullable="true" />
+          <Property Type="DateTime" Name="dataFine" Nullable="true" />
+          <Property Type="String" Name="descrizione" Nullable="true" MaxLength="200" />
+        </ComplexType>
+        <ComplexType Name="ListaLezioni_Result">
+          <Property Type="Int32" Name="idLezione" Nullable="false" />
+          <Property Type="String" Name="nome" Nullable="false" MaxLength="20" />
+          <Property Type="Int32" Name="durata" Nullable="true" />
+          <Property Type="String" Name="descrizione" Nullable="true" MaxLength="200" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GeCoModelStoreContainer" CdmEntityContainer="GeCoEntities">
+          <EntitySetMapping Name="Corsi">
+            <EntityTypeMapping TypeName="GeCoModel.Corsi">
+              <MappingFragment StoreEntitySet="Corsi">
+                <ScalarProperty Name="idCorso" ColumnName="idCorso" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="dataInizio" ColumnName="dataInizio" />
+                <ScalarProperty Name="dataFine" ColumnName="dataFine" />
+                <ScalarProperty Name="descrizione" ColumnName="descrizione" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Iscrizioni">
+            <EntityTypeMapping TypeName="GeCoModel.Iscrizioni">
+              <MappingFragment StoreEntitySet="Iscrizioni">
+                <ScalarProperty Name="idIscrizione" ColumnName="idIscrizione" />
+                <ScalarProperty Name="fkCorso" ColumnName="fkCorso" />
+                <ScalarProperty Name="fkStudente" ColumnName="fkStudente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Lezioni">
+            <EntityTypeMapping TypeName="GeCoModel.Lezioni">
+              <MappingFragment StoreEntitySet="Lezioni">
+                <ScalarProperty Name="idLezione" ColumnName="idLezione" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="durata" ColumnName="durata" />
+                <ScalarProperty Name="descrizione" ColumnName="descrizione" />
+                <ScalarProperty Name="fkCorso" ColumnName="fkCorso" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Studenti">
+            <EntityTypeMapping TypeName="GeCoModel.Studenti">
+              <MappingFragment StoreEntitySet="Studenti">
+                <ScalarProperty Name="matricola" ColumnName="matricola" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="cognome" ColumnName="cognome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddCorso" FunctionName="GeCoModel.Store.AddCorso" />
+          <FunctionImportMapping FunctionImportName="AddLezione" FunctionName="GeCoModel.Store.AddLezione">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GeCoModel.AddLezione_Result">
+                <ScalarProperty Name="ErrorNumber" ColumnName="ErrorNumber" />
+                <ScalarProperty Name="ErrorMessage" ColumnName="ErrorMessage" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="Iscrizione" FunctionName="GeCoModel.Store.Iscrizione" />
+          <FunctionImportMapping FunctionImportName="ListaCorsi" FunctionName="GeCoModel.Store.ListaCorsi">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GeCoModel.ListaCorsi_Result">
+                <ScalarProperty Name="idCorso" ColumnName="idCorso" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="dataInizio" ColumnName="dataInizio" />
+                <ScalarProperty Name="dataFine" ColumnName="dataFine" />
+                <ScalarProperty Name="descrizione" ColumnName="descrizione" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="ListaLezioni" FunctionName="GeCoModel.Store.ListaLezioni">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="GeCoModel.ListaLezioni_Result">
+                <ScalarProperty Name="idLezione" ColumnName="idLezione" />
+                <ScalarProperty Name="nome" ColumnName="nome" />
+                <ScalarProperty Name="durata" ColumnName="durata" />
+                <ScalarProperty Name="descrizione" ColumnName="descrizione" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Nessuno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

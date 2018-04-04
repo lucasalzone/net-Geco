@@ -42,6 +42,11 @@ as
 		commit transaction;
 go
 
+create procedure ListaCorsi
+as
+	SELECT * FROM Corsi;
+go
+
 create procedure ModCorso
 	
 as
@@ -66,7 +71,7 @@ as
 	else
 		begin
 			declare @idLezione int;
-			set @idLezione = (SELECT idLezione FROM Lezioni WHERE Lezioni.nome = @NomeLezione);
+			set @idLezione = (SELECT idLezione FROM Lezioni WHERE Lezioni.nome = @NomeLezione AND Corsi.idCorso = @idCorso);
 			if @idLezione is null
 				begin
 					print 'Errore: Non esiste quella lezione';

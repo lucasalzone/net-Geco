@@ -7,13 +7,13 @@ namespace Giova{
 	public interface IGeCo{
 		List<Corso> ListaCorsi();
         List<Lezione> ListaLezioni(Corso corso);
-		List<Corso> Search(string s, bool scelta, List<Corso> lista);
+        List<Corso> SearchByName(string s);
+		List<Corso> Search(string s);
 		void AggiungiCorso(Corso c);
 		void ModificaCorso(Corso c,bool scelta,string s);
 		void Iscrizione(int idcorso,string matricolastudente);
 		void ModificaLezione(string nomecorso,string nomelezione,bool scelta,string s);
 		void AggiungiLezione(Corso c, Lezione l);
-		//List<Lezione> SearchLezioni(string s, bool scelta,Corso c,List<Lezione> lista);
 	}
 
 	public class GeCo: IGeCo{
@@ -34,13 +34,7 @@ namespace Giova{
 		public List<Corso> ListaCorsi(){
 			return Reader<List<Corso>>(TakeCorsi,$"SELECT nome,dataInizio,dataFine,descrizione FROM Corsi;");
 		}
-		public List<Corso> Search(string s, bool scelta, List<Corso> lista) {
-			if(scelta){
-				return SearchByNome(lista, s);
-			}else{
-				return SearchByDescrizione(lista,s);
-			}
-		}
+
 		private List<Corso> SearchByNome(List<Corso> lista, string NomeDaCercare) {
 			List < Corso > trovati = new List<Corso>();
 			foreach(Corso c in lista){
@@ -57,14 +51,18 @@ namespace Giova{
 				}
 			}return trovati;
 		}
-        /*
-		public List<Lezione> ListaLezioni(string nomecorso) {
-            return Reader<List<Lezione>>(TakeLezioni,$"exec ListaLezioni '{nomecorso}'");
-		}
-        */
         public List<Lezione> ListaLezioni(Corso c) {
             return Reader<List<Lezione>>(TakeLezioni, $"exec ListaLezioni '{c.Nome}';");
 	    }
+
+        public List<Corso> SearchByName(string s) {
+            throw new NotImplementedException();
+        }
+
+		public List<Corso> Search(string s) {
+            return null;
+		}
+
         public void ModificaCorso(Corso c,bool scelta,string s) {
             throw new NotImplementedException();
         }

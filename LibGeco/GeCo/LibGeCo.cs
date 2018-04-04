@@ -6,12 +6,12 @@ using AllClass;
 namespace Giova{
 	public interface IGeCo{
 		List<Corso> ListaCorsi();
-        List<Lezione> ListaLezioni(string nomecorso);
+        List<Lezione> ListaLezioni(Corso corso);
 		List<Corso> Search(string s, bool scelta, List<Corso> lista);
 		void AggiungiCorso(Corso c);
 		void ModificaCorso(Corso c,bool scelta,string s);
 		void Iscrizione(int idcorso,string matricolastudente);
-		void ModificaLezione(Corso c,Lezione l,bool scelta,string s);
+		void ModificaLezione(string nomecorso,string nomelezione,bool scelta,string s);
 		void AggiungiLezione(Corso c, Lezione l);
 		//List<Lezione> SearchLezioni(string s, bool scelta,Corso c,List<Lezione> lista);
 	}
@@ -57,11 +57,14 @@ namespace Giova{
 				}
 			}return trovati;
 		}
-
+        /*
 		public List<Lezione> ListaLezioni(string nomecorso) {
             return Reader<List<Lezione>>(TakeLezioni,$"exec ListaLezioni '{nomecorso}'");
 		}
-
+        */
+        public List<Lezione> ListaLezioni(Corso c) {
+            return Reader<List<Lezione>>(TakeLezioni, $"exec ListaLezioni '{c.Nome}';");
+	    }
         public void ModificaCorso(Corso c,bool scelta,string s) {
             throw new NotImplementedException();
         }
@@ -81,48 +84,22 @@ namespace Giova{
 			}
 		}
 
-		private void ModDescrizioneLez(Corso c, Lezione l, string desc) {
-			SqlConnection connection = DataConnection();
-			try {
-				connection.Open();
-				string sql = $"select nome, durata, descrizione from Lezioni where nome = '{l.Nome}' and descrizione = {l.Descrizione};');";
-				SqlCommand cmd = new SqlCommand(sql, connection);
-				sql = $"update Lezione set descrizione = {desc} where nome = '{l.Nome}';";
-				cmd = new SqlCommand(sql, connection);
-				cmd.ExecuteNonQuery();
-				cmd.Dispose();
-			} catch (Exception e) {
-				throw e;
-			} finally {
-				connection.Dispose();
-			}
+		private void ModDescrizioneLez(string nomecorso, string nomelezione,string desc) {
+               Procedura($"exec ModDescrizioneLez '{nomecorso}','{nomelezione}','{desc}'");
 		}
 
-		private void ModDurataLez(Corso c, Lezione l, int ore) {
-			SqlConnection connection = DataConnection();
-			try {
-				connection.Open();
-				string sql = $"select nome, durata, descrizione from Lezioni where nome = '{l.Nome}' and durata = {l.Durata};');";
-				SqlCommand cmd = new SqlCommand(sql, connection);								
-				sql = $"update Lezione set durata = {ore} where nome = '{l.Nome}';";
-				cmd = new SqlCommand(sql, connection);
-				cmd.ExecuteNonQuery();
-				cmd.Dispose();
-			} catch (Exception e) {
-				throw e;
-			} finally {
-				connection.Dispose();
-			}
+		private void ModDurataLez(string nomecorso, string nomelezione,int durata) {
+            Procedura($"exec ModDurataLez '{nomecorso}','{nomelezione}',{durata}");
 		}
 
-		public void ModificaLezione(Corso c, Lezione l, bool scelta, string s) {
+		public void ModificaLezione(string nomecorso, string nomelezione, bool scelta, string s) {
 			//Se è true significa che vuole modificare la descrizione
 			if (scelta) {
-				ModDescrizioneLez(c,l,s);
+				ModDescrizioneLez(nomecorso,nomelezione,s);
 			} else { //Se è false significa che vuole modificare la durata
 				try{
 					int num = int.Parse(s);
-					ModDurataLez(c, l, num);
+					ModDurataLez(nomecorso, nomelezione, num);
 				} catch(FormatException e){
 					throw e;
 				}
